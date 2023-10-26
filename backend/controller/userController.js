@@ -3,7 +3,7 @@ const { User } = require("../models");
 class userController {
   static async getAll(req, res) {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({ order: [["id", "ASC"]] });
 
       res.status(200).json(users);
     } catch (error) {
