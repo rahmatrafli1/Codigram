@@ -47,7 +47,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       image: DataTypes.STRING,
       image_url: DataTypes.STRING,
-      address: DataTypes.TEXT,
+      address: {
+        type: DataTypes.TEXT,
+        validate: {
+          notEmpty: {
+            msg: "Alamat tidak boleh kosong!",
+          },
+        },
+      },
       nohp: {
         type: DataTypes.STRING,
         validate: {
@@ -60,7 +67,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       hooks: {
         beforeCreate: function (user, options) {
-          user.address = user.address || "Tidak Diketahui";
+          const url = "http://127.0.0.1:3000/assets/user/";
+          user.image = user.image || "default.png";
+          user.image_url = url + user.image || url + "default.png";
         },
       },
       sequelize,

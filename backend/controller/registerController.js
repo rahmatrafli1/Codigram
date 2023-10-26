@@ -5,16 +5,20 @@ const bcrypt = require("bcrypt");
 class registerController {
   static async register(req, res) {
     try {
-      const { name, username, email, password, confirmpass, address, nohp } =
-        req.body;
+      const {
+        name,
+        username,
+        email,
+        image,
+        image_url,
+        password,
+        confirmpass,
+        address,
+        nohp,
+      } = req.body;
 
       const genhash = bcrypt.genSaltSync(10, "a");
       const passhash = bcrypt.hashSync(password, genhash);
-
-      const filename = req.file.filename;
-      const url = `${req.protocol}://${req.get(
-        "host"
-      )}/assets/user/${filename}`;
 
       if (password === confirmpass) {
         const response = await User.create({
@@ -23,8 +27,8 @@ class registerController {
           email: email,
           password: passhash,
           confirmpass: confirmpass,
-          image: filename,
-          image_url: url,
+          image: image,
+          image_url: image_url,
           address: address,
           nohp: nohp,
         });
