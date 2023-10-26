@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,18 +11,61 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init({
-    name: DataTypes.STRING,
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    image: DataTypes.STRING,
-    image_url: DataTypes.STRING,
-    address: DataTypes.TEXT,
-    nohp: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  User.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Nama Lengkap tidak boleh kosong!",
+          },
+        },
+      },
+      username: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Username tidak boleh kosong!",
+          },
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Email tidak boleh kosong!",
+          },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Password tidak boleh kosong!",
+          },
+        },
+      },
+      image: DataTypes.STRING,
+      image_url: DataTypes.STRING,
+      address: DataTypes.TEXT,
+      nohp: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Nomor HP tidak boleh kosong!",
+          },
+        },
+      },
+    },
+    {
+      hooks: {
+        beforeCreate: function (user, options) {
+          user.address = user.address || "Tidak Diketahui";
+        },
+      },
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
