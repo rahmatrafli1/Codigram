@@ -1,4 +1,7 @@
+const errorHandling = require("../helper/errorHandling.js");
 const { User } = require("../models");
+const fs = require("fs");
+const bcrypt = require("bcrypt");
 
 class userController {
   static async getAll(req, res) {
@@ -27,6 +30,60 @@ class userController {
 
   static async edit(req, res) {
     try {
+      const { name, username, email, password, address, nohp } = req.body;
+
+      const genhash = bcrypt.genSaltSync(10, "a");
+      const passhash = bcrypt.hashSync(password, genhash);
+
+      const imagedatabase = await User.findOne({
+        attributes: ["image"],
+        where: { id: req.params.id },
+      });
+
+      const oldImage =
+        req.protocol +
+        "://" +
+        req.get("host") +
+        "/assets/user/" +
+        imagedatabase.image;
+      const oldImageName = oldImage.split("/").pop();
+
+      if (req.errorvalidatefile) {
+        res.status(422).json({ message: req.errorvalidatefile });
+      }
+      const gambar = req.file.filename;
+      const url =
+        req.protocol + "://" + req.get("host") + "/assets/user/" + gambar;
+
+      if (req.file) {
+        if (oldImageName !== "default.png") {
+          fs.unlinkSync(`./assets/user/${oldImageName}`);
+        }
+      } else {
+        gambar = oldImageName;
+        url = oldImage;
+      }
+
+      const response = await User.update(
+        {
+          name: name,
+          username: username,
+          email: email,
+          password: passhash,
+          image: gambar,
+          image_url: url,
+          address: address,
+          nohp: nohp,
+          oldimage: oldImage,
+        },
+        { where: { id: req.params.id } }
+      );
+
+      response
+        ? res.status(200).send(errorHandling(response, "Berhasil Update User!"))
+        : res.status(404).json({
+            message: "User " + req.params.id + " tidak ada!",
+          });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
