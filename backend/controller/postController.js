@@ -1,11 +1,19 @@
 const errorHandling = require("../helper/errorHandling.js");
 const { Post } = require("../models");
+const { User } = require("../models");
 const fs = require("fs");
 
 class postController {
   static async getAll(req, res) {
     try {
-      const posts = await Post.findAll({ order: [["id", "ASC"]] });
+      const posts = await Post.findAll({
+        include: {
+          model: User,
+          attributes: ["name"],
+          required: true,
+        },
+        order: [["id", "ASC"]],
+      });
 
       res.status(200).json(posts);
     } catch (error) {
@@ -15,7 +23,14 @@ class postController {
 
   static async detail(req, res) {
     try {
-      const detailPost = await Post.findOne({ where: { id: req.params.id } });
+      const detailPost = await Post.findOne({
+        include: {
+          model: User,
+          attributes: ["name"],
+          required: true,
+        },
+        where: { id: req.params.id },
+      });
 
       detailPost
         ? res.status(200).json(detailPost)
@@ -44,7 +59,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            userId: userId,
+            UserId: userId,
           });
 
           res
@@ -62,7 +77,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            userId: userId,
+            UserId: userId,
           });
 
           res
@@ -111,7 +126,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            userId: userId,
+            UserId: userId,
             oldimage: oldImage,
           },
           { where: { id: req.params.id }, returning: true }
@@ -134,7 +149,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            userId: userId,
+            UserId: userId,
           },
           { where: { id: req.params.id }, returning: true }
         );

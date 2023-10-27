@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Post.belongsTo(models.User);
+      Post.belongsTo(models.User);
     }
   }
   Post.init(
@@ -32,12 +32,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       image: DataTypes.STRING,
       image_url: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
+      UserId: DataTypes.INTEGER,
     },
     {
       hooks: {
         beforeCreate: function (post, options) {
-          post.userId = post.userId || 0;
+          post.UserId = post.UserId || 0;
         },
       },
       sequelize,
