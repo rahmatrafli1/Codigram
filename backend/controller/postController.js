@@ -1,5 +1,6 @@
 const errorHandling = require("../helper/errorHandling.js");
 const { Post } = require("../models");
+const fs = require("fs");
 
 class postController {
   static async getAll(req, res) {
@@ -74,7 +75,82 @@ class postController {
     }
   }
 
-  static async edit(req, res) {}
+  static async edit(req, res) {
+    try {
+      const { name, description, userId } = req.body;
+
+      const imagedatabase = await Post.findOne({
+        attributes: ["image"],
+        where: { id: req.params.id },
+      });
+
+      const oldImage =
+        req.protocol +
+        "://" +
+        req.get("host") +
+        "/assets/user/" +
+        imagedatabase.image;
+      const oldImageName = oldImage.split("/").pop();
+
+      if (req.errorvalidatefile) {
+        res.status(422).json({ message: req.errorvalidatefile });
+      }
+
+      if (req.file) {
+        if (oldImageName !== "default.jpeg") {
+          fs.unlinkSync(`./assets/post/${oldImageName}`);
+        }
+
+        const gambar = req.file.filename;
+        const url =
+          req.protocol + "://" + req.get("host") + "/assets/user/" + gambar;
+
+        const response = await Post.update(
+          {
+            name: name,
+            description: description,
+            image: gambar,
+            image_url: url,
+            userId: userId,
+            oldimage: oldImage,
+          },
+          { where: { id: req.params.id }, returning: true }
+        );
+
+        response
+          ? res
+              .status(200)
+              .send(errorHandling(response, "Berhasil Update Post!"))
+          : res.status(404).json({
+              message: "Post " + req.params.id + " tidak ada!",
+            });
+      } else {
+        const gambar = oldImageName;
+        const url = oldImage;
+
+        const response = await Post.update(
+          {
+            name: name,
+            description: description,
+            image: gambar,
+            image_url: url,
+            userId: userId,
+          },
+          { where: { id: req.params.id }, returning: true }
+        );
+
+        response
+          ? res
+              .status(200)
+              .send(errorHandling(response, "Berhasil Update Post!"))
+          : res.status(404).json({
+              message: "Post " + req.params.id + " tidak ada!",
+            });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 
   static async delete(req, res) {}
 }

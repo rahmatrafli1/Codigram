@@ -5,7 +5,7 @@ const uploadPost = require("../middleware/multerPost.js");
 postRoutes.get("/", postController.getAll);
 postRoutes.get("/:id", postController.detail);
 postRoutes.post("/", uploadPost.single("image"), postController.post);
-postRoutes.put("/:id", postController.edit);
+postRoutes.put("/:id", uploadPost.single("image"), postController.edit);
 postRoutes.delete("/:id", postController.delete);
 
 module.exports = postRoutes;
