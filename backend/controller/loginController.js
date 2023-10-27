@@ -13,20 +13,24 @@ class loginController {
       });
 
       if (userdatabase) {
-        if (decryptHash(password, userdatabase.password)) {
-          const token = jwt.sign(
-            {
-              name: userdatabase.name,
-              username: userdatabase.username,
-              createdAt: userdatabase.createdAt,
-            },
-            process.env.SECRET_KEY,
-            { expiresIn: "15s" }
-          );
+        if (password.length >= 5) {
+          if (decryptHash(password, userdatabase.password)) {
+            const token = jwt.sign(
+              {
+                name: userdatabase.name,
+                username: userdatabase.username,
+                createdAt: userdatabase.createdAt,
+              },
+              process.env.SECRET_KEY,
+              { expiresIn: "15s" }
+            );
 
-          res.status(200).send(errorHandling(token, "Berhasil Login!"));
+            res.status(200).send(errorHandling(token, "Berhasil Login!"));
+          } else {
+            res.status(400).json({ message: "Password anda salah!" });
+          }
         } else {
-          res.status(400).json({ message: "Password anda salah!" });
+          res.status(400).json({ message: "Password anda terlalu pendek!" });
         }
       } else {
         res.status(404).json({ message: "Username tidak terdaftar!" });
