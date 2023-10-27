@@ -1,7 +1,6 @@
 const { User } = require("../models");
-const jwt = require("jsonwebtoken");
-const errorHandling = require("../helper/errorHandling.js");
 const { decryptHash } = require("../helper/decryptHash.js");
+const { tokengenerator } = require("../helper/jsonwebtoken.js");
 
 class loginController {
   static async login(req, res) {
@@ -15,17 +14,11 @@ class loginController {
       if (userdatabase) {
         if (password.length >= 5) {
           if (decryptHash(password, userdatabase.password)) {
-            const token = jwt.sign(
-              {
-                name: userdatabase.name,
-                username: userdatabase.username,
-                createdAt: userdatabase.createdAt,
-              },
-              process.env.SECRET_KEY,
-              { expiresIn: "15s" }
-            );
+            const token = tokengenerator(userdatabase);
 
-            res.status(200).send(errorHandling(token, "Berhasil Login!"));
+            res
+              .status(200)
+              .json({ access_token: token, message: "Berhasil login!" });
           } else {
             res.status(400).json({ message: "Password anda salah!" });
           }

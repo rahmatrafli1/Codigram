@@ -1,4 +1,5 @@
 const errorHandling = require("../helper/errorHandling.js");
+const { tokencheck } = require("../helper/jsonwebtoken.js");
 const { Post } = require("../models");
 const { User } = require("../models");
 const fs = require("fs");
@@ -9,7 +10,7 @@ class postController {
       const posts = await Post.findAll({
         include: {
           model: User,
-          attributes: ["name"],
+          attributes: ["id", "name"],
           required: true,
         },
         order: [["id", "ASC"]],
@@ -26,7 +27,7 @@ class postController {
       const detailPost = await Post.findOne({
         include: {
           model: User,
-          attributes: ["name"],
+          attributes: ["id", "name"],
           required: true,
         },
         where: { id: req.params.id },
@@ -44,8 +45,10 @@ class postController {
 
   static async post(req, res) {
     try {
-      const { name, description, userId } = req.body;
+      const { name, description } = req.body;
+      const access_token = req.headers.access_token;
 
+      const cekToken = tokencheck(access_token).id;
       if (req.errorvalidatefile) {
         res.status(422).json({ message: req.errorvalidatefile });
       } else {
@@ -59,7 +62,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: userId,
+            UserId: cekToken,
           });
 
           res
@@ -77,7 +80,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: userId,
+            UserId: cekToken,
           });
 
           res
@@ -92,8 +95,10 @@ class postController {
 
   static async edit(req, res) {
     try {
-      const { name, description, userId } = req.body;
+      const { name, description } = req.body;
+      const access_token = req.headers.access_token;
 
+      const cekToken = tokencheck(access_token).id;
       const imagedatabase = await Post.findOne({
         attributes: ["image"],
         where: { id: req.params.id },
@@ -126,7 +131,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: userId,
+            UserId: cekToken,
             oldimage: oldImage,
           },
           { where: { id: req.params.id }, returning: true }
@@ -149,7 +154,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: userId,
+            UserId: cekToken,
           },
           { where: { id: req.params.id }, returning: true }
         );
