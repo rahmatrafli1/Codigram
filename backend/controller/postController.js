@@ -152,7 +152,44 @@ class postController {
     }
   }
 
-  static async delete(req, res) {}
+  static async delete(req, res) {
+    try {
+      const imagedatabase = await Post.findOne({
+        attributes: ["image"],
+        where: { id: req.params.id },
+      });
+
+      if (!imagedatabase) {
+        res.status(404).json({ message: "Image Post tidak ditemukan!" });
+      } else {
+        const oldImage =
+          req.protocol +
+          "://" +
+          req.get("host") +
+          "/assets/post/" +
+          imagedatabase.image;
+        const oldImageName = oldImage.split("/").pop();
+
+        if (oldImageName !== "default.jpeg") {
+          fs.unlinkSync("./assets/post/" + oldImageName);
+        }
+
+        const response = await Post.destroy({
+          where: { id: req.params.id },
+        });
+
+        response === 1
+          ? res
+              .status(200)
+              .send(errorHandling(response, "Berhasil Hapus Post!"))
+          : res.status(404).json({
+              message: "Post " + req.params.id + " tidak ada!",
+            });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 module.exports = postController;

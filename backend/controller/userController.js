@@ -120,27 +120,33 @@ class userController {
         where: { id: req.params.id },
       });
 
-      const oldImage =
-        req.protocol +
-        "://" +
-        req.get("host") +
-        "/assets/user/" +
-        imagedatabase.image;
-      const oldImageName = oldImage.split("/").pop();
+      if (!imagedatabase) {
+        res.status(404).json({ message: "Image User tidak ditemukan" });
+      } else {
+        const oldImage =
+          req.protocol +
+          "://" +
+          req.get("host") +
+          "/assets/user/" +
+          imagedatabase.image;
+        const oldImageName = oldImage.split("/").pop();
 
-      if (oldImageName !== "default.png") {
-        fs.unlinkSync(`./assets/user/${oldImageName}`);
+        if (oldImageName !== "default.png") {
+          fs.unlinkSync(`./assets/user/${oldImageName}`);
+        }
+
+        const response = await User.destroy({
+          where: { id: req.params.id },
+        });
+
+        response === 1
+          ? res
+              .status(200)
+              .send(errorHandling(response, "Berhasil Hapus User!"))
+          : res.status(404).json({
+              message: "User " + req.params.id + " tidak ada!",
+            });
       }
-
-      const response = await User.destroy({
-        where: { id: req.params.id },
-      });
-
-      response === 1
-        ? res.status(200).send(errorHandling(response, "Berhasil Hapus User!"))
-        : res.status(404).json({
-            message: "User " + req.params.id + " tidak ada!",
-          });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
