@@ -43,6 +43,27 @@ class postController {
     }
   }
 
+  static async detailUser(req, res) {
+    try {
+      const detailPost = await Post.findOne({
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+          required: true,
+        },
+        where: { id: req.params.id },
+      });
+
+      detailPost
+        ? res.status(200).json(detailPost)
+        : res
+            .status(404)
+            .json({ message: "Post id " + req.params.id + " tidak ada." });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
   static async getAllUser(req, res) {
     try {
       const UserId = +req.userData.id;
