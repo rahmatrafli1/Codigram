@@ -1,5 +1,5 @@
+const { Op } = require("sequelize");
 const errorHandling = require("../helper/errorHandling.js");
-const { tokencheck } = require("../helper/jsonwebtoken.js");
 const { Post } = require("../models");
 const { User } = require("../models");
 const fs = require("fs");
@@ -79,6 +79,32 @@ class postController {
       });
 
       res.status(200).json(posts);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  static async search(req, res) {
+    try {
+      const search = req.query.search_query || "";
+      const result = await Post.findAll({
+        where: {
+          [Op.or]: [
+            {
+              name: {
+                [Op.like]: `%${search}%`,
+              },
+            },
+            {
+              description: {
+                [Op.like]: `%${search}%`,
+              },
+            },
+          ],
+        },
+        order: [["id", "ASC"]],
+      });
+      res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -214,14 +240,13 @@ class postController {
 
   static async delete(req, res) {
     try {
-      const imagedatabase = await Post.findOne({
-        attributes: ["image"],
-        where: { id: req.params.id },
-      });
+      const UserId = +req.userData.id;
 
-      if (!imagedatabase) {
-        res.status(404).json({ message: "Image Post tidak ditemukan!" });
-      } else {
+      const imagedatabase = await Post.findOne({
+        attributes: ["image", "UserId"],
+        where: { id: req.params.id, UserId: UserId },
+      });
+      if (imagedatabase) {
         const oldImage =
           req.protocol +
           "://" +
@@ -245,6 +270,10 @@ class postController {
           : res.status(404).json({
               message: "Post " + req.params.id + " tidak ada!",
             });
+      } else {
+        res.status(403).json({
+          message: `Anda tidak diizinkan delete.`,
+        });
       }
     } catch (error) {
       res.status(500).json({ message: error.message });
