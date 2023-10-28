@@ -1,7 +1,7 @@
 const errorHandling = require("../helper/errorHandling.js");
 const { User } = require("../models");
 const fs = require("fs");
-const bcrypt = require("bcrypt");
+const { encryptHash } = require("../helper/encryptHash.js");
 
 class userController {
   static async getAll(req, res) {
@@ -32,12 +32,13 @@ class userController {
     try {
       const { name, username, email, password, address, nohp } = req.body;
 
-      const genhash = bcrypt.genSaltSync(10, "a");
-      const passhash = bcrypt.hashSync(password, genhash);
+      const passhash = encryptHash(password);
+
+      const UserId = +req.userData.id;
 
       const imagedatabase = await User.findOne({
         attributes: ["image"],
-        where: { id: req.params.id },
+        where: { id: UserId },
       });
 
       const oldImage =
@@ -72,7 +73,7 @@ class userController {
             nohp: nohp,
             oldimage: oldImage,
           },
-          { where: { id: req.params.id }, returning: true }
+          { where: { id: UserId }, returning: true }
         );
 
         response
@@ -97,7 +98,7 @@ class userController {
             address: address,
             nohp: nohp,
           },
-          { where: { id: req.params.id }, returning: true }
+          { where: { id: UserId }, returning: true }
         );
 
         response
@@ -105,7 +106,7 @@ class userController {
               .status(200)
               .send(errorHandling(response, "Berhasil Update User!"))
           : res.status(404).json({
-              message: "User " + req.params.id + " tidak ada!",
+              message: "User " + UserId + " tidak ada!",
             });
       }
     } catch (error) {

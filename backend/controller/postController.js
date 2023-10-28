@@ -43,12 +43,32 @@ class postController {
     }
   }
 
+  static async getAllUser(req, res) {
+    try {
+      const UserId = +req.userData.id;
+
+      const posts = await Post.findAll({
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+          required: true,
+        },
+        where: { UserId: UserId },
+        order: [["id", "ASC"]],
+      });
+
+      res.status(200).json(posts);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
   static async post(req, res) {
     try {
       const { name, description } = req.body;
-      const access_token = req.headers.access_token;
 
-      const cekToken = tokencheck(access_token).id;
+      const UserId = +req.userData.id;
+
       if (req.errorvalidatefile) {
         res.status(422).json({ message: req.errorvalidatefile });
       } else {
@@ -62,7 +82,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: cekToken,
+            UserId: UserId,
           });
 
           res
@@ -80,7 +100,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: cekToken,
+            UserId: UserId,
           });
 
           res
@@ -96,9 +116,8 @@ class postController {
   static async edit(req, res) {
     try {
       const { name, description } = req.body;
-      const access_token = req.headers.access_token;
+      const UserId = +req.userData.id;
 
-      const cekToken = tokencheck(access_token).id;
       const imagedatabase = await Post.findOne({
         attributes: ["image"],
         where: { id: req.params.id },
@@ -131,7 +150,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: cekToken,
+            UserId: UserId,
             oldimage: oldImage,
           },
           { where: { id: req.params.id }, returning: true }
@@ -154,7 +173,7 @@ class postController {
             description: description,
             image: gambar,
             image_url: url,
-            UserId: cekToken,
+            UserId: UserId,
           },
           { where: { id: req.params.id }, returning: true }
         );
