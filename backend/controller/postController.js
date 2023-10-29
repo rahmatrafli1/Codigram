@@ -141,7 +141,7 @@ class postController {
             req.protocol +
             "://" +
             req.get("host") +
-            "/assets/user/default.jpeg";
+            "/assets/post/default.jpeg";
           const response = await Post.create({
             name: name,
             description: description,
@@ -174,7 +174,7 @@ class postController {
         req.protocol +
         "://" +
         req.get("host") +
-        "/assets/user/" +
+        "/assets/post/" +
         imagedatabase.image;
       const oldImageName = oldImage.split("/").pop();
 
@@ -189,7 +189,7 @@ class postController {
 
         const gambar = req.file.filename;
         const url =
-          req.protocol + "://" + req.get("host") + "/assets/user/" + gambar;
+          req.protocol + "://" + req.get("host") + "/assets/post/" + gambar;
 
         const response = await Post.update(
           {

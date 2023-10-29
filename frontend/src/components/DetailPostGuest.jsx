@@ -1,18 +1,18 @@
 import React from "react";
 import Navbar from "./layout/Navbar";
-import { ListPost } from "./Post";
+import { DetailPost } from "./Post";
 
-const Home = () => {
+const DetailPostGuest = () => {
   return (
     <>
       <Navbar />
       <div className="container">
-        <h1 className="mt-2">Home</h1>
+        <h1>DetailPost</h1>
         <hr />
-        <ListPost />
+        <DetailPost />
       </div>
     </>
   );
 };
 
-export default Home;
+export default DetailPostGuest;

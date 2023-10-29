@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
   AiOutlineHome,
   AiOutlineInstagram,
   AiOutlineLogin,
+  AiOutlineLogout,
   AiOutlineUserAdd,
 } from "react-icons/ai";
 
 const Navbar = () => {
+  const [login, setLogin] = useState(false);
+  //   const loginHandler = () => {
+  //     setLogin(true);
+  //   };
+  //   const logoutHandler = () => {
+  //     setLogin(false);
+  //   };
   return (
     <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div className="container">
@@ -28,32 +36,37 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <NavLink
-                className="nav-link d-flex align-items-center"
-                aria-current="page"
-                to="/"
-              >
+              <NavLink className="nav-link d-flex align-items-center" to="/">
                 <AiOutlineHome /> Home
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink
-                className="nav-link d-flex align-items-center"
-                aria-current="page"
-                to="/login"
-              >
-                <AiOutlineLogin /> Login
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                className="nav-link d-flex align-items-center"
-                aria-current="page"
-                to="/register"
-              >
-                <AiOutlineUserAdd /> Register
-              </NavLink>
-            </li>
+
+            {login ? (
+              <li className="nav-item">
+                <button className="nav-link d-flex align-items-center">
+                  <AiOutlineLogout /> Logout
+                </button>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link d-flex align-items-center"
+                    to="/login"
+                  >
+                    <AiOutlineLogin /> Login
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link d-flex align-items-center"
+                    to="/register"
+                  >
+                    <AiOutlineUserAdd /> Register
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
