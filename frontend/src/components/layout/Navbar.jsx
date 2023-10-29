@@ -7,8 +7,10 @@ import {
   AiOutlineLogout,
   AiOutlineUserAdd,
 } from "react-icons/ai";
+import { BsSignpostSplit } from "react-icons/bs";
 
 const Navbar = () => {
+  // eslint-disable-next-line
   const [login, setLogin] = useState(false);
   //   const loginHandler = () => {
   //     setLogin(true);
@@ -17,7 +19,10 @@ const Navbar = () => {
   //     setLogin(false);
   //   };
   return (
-    <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav
+      className="navbar navbar-expand-lg bg-dark sticky-top"
+      data-bs-theme="dark"
+    >
       <div className="container">
         <Link className="d-flex align-items-center navbar-brand" to="/">
           <AiOutlineInstagram /> Codigram
@@ -42,11 +47,21 @@ const Navbar = () => {
             </li>
 
             {login ? (
-              <li className="nav-item">
-                <button className="nav-link d-flex align-items-center">
-                  <AiOutlineLogout /> Logout
-                </button>
-              </li>
+              <>
+                <li className="nav-item">
+                  <button className="nav-link d-flex align-items-center">
+                    <AiOutlineLogout /> Logout
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link d-flex align-items-center"
+                    to="/login"
+                  >
+                    <BsSignpostSplit /> Post
+                  </NavLink>
+                </li>
+              </>
             ) : (
               <>
                 <li className="nav-item">
