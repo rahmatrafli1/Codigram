@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../layout/Navbar";
-import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getListPostSearch } from "../../../actions/PostActions";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ const SearchPost = () => {
   // eslint-disable-next-line
   const [search, setSearch] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [query, setQuery] = useState("");
   const dispatch = useDispatch();
 
   // eslint-disable-next-line
@@ -33,19 +34,30 @@ const SearchPost = () => {
     // eslint-disable-next-line
   }, [dispatch, keyword]);
 
+  const searchData = (e) => {
+    e.preventDefault();
+    setKeyword(query);
+  };
   return (
     <>
       <Navbar />
       <div className="container">
-        <form className="mt-3">
+        <form className="mt-3" onSubmit={searchData}>
           <div className="input-group mb-3">
             <input
               type="text"
+              name="search"
               className="form-control"
               placeholder="Cari berdasarkan nama dan deskripsi.."
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
+            <button
+              type="submit"
+              className="input-group-text bg-info text-white"
+            >
+              <AiOutlineSearch />
+            </button>
           </div>
         </form>
         <div className="py-2">
