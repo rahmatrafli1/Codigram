@@ -7,7 +7,7 @@ const DetailPostGuest = () => {
     <>
       <Navbar />
       <div className="container">
-        <h1>DetailPost</h1>
+        <h1 className="mt-3">Detail Post</h1>
         <hr />
         <DetailPost />
       </div>

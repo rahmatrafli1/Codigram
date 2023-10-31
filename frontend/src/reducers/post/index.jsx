@@ -1,4 +1,8 @@
-import { GET_LIST_POST, GET_LIST_POST_DETAIL } from "../../actions/PostActions";
+import {
+  GET_LIST_POST,
+  GET_LIST_POST_DETAIL,
+  GET_SEARCH_POST,
+} from "../../actions/PostActions";
 
 const initialState = {
   getListPostResult: false,
@@ -7,6 +11,9 @@ const initialState = {
   getListPostDetailResult: false,
   getListPostDetailLoading: false,
   getListPostDetailError: false,
+  getListPostSearchResult: false,
+  getListPostSearchLoading: false,
+  getListPostSearchError: false,
 };
 
 const post = (state = initialState, action) => {
@@ -24,6 +31,13 @@ const post = (state = initialState, action) => {
         getListPostDetailResult: action.payload.data,
         getListPostDetailLoading: action.payload.loading,
         getListPostDetailError: action.payload.errorMessage,
+      };
+    case GET_SEARCH_POST:
+      return {
+        ...state,
+        getListPostSearchResult: action.payload.data,
+        getListPostSearchLoading: action.payload.loading,
+        getListPostSearchError: action.payload.errorMessage,
       };
     default:
       return state;

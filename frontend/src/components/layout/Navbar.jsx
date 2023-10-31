@@ -5,6 +5,7 @@ import {
   AiOutlineInstagram,
   AiOutlineLogin,
   AiOutlineLogout,
+  AiOutlineSearch,
   AiOutlineUserAdd,
 } from "react-icons/ai";
 import { BsSignpostSplit } from "react-icons/bs";
@@ -25,7 +26,7 @@ const Navbar = () => {
     >
       <div className="container">
         <Link className="d-flex align-items-center navbar-brand" to="/">
-          <AiOutlineInstagram /> Codigram
+          <AiOutlineInstagram className="me-2" /> Codigram
         </Link>
         <button
           className="navbar-toggler"
@@ -42,7 +43,16 @@ const Navbar = () => {
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <NavLink className="nav-link d-flex align-items-center" to="/">
-                <AiOutlineHome /> Home
+                <AiOutlineHome className="me-2" /> Home
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                className="nav-link d-flex align-items-center"
+                to="/search"
+              >
+                <AiOutlineSearch className="me-2" /> Search
               </NavLink>
             </li>
 
@@ -50,7 +60,7 @@ const Navbar = () => {
               <>
                 <li className="nav-item">
                   <button className="nav-link d-flex align-items-center">
-                    <AiOutlineLogout /> Logout
+                    <AiOutlineLogout className="me-2" /> Logout
                   </button>
                 </li>
                 <li className="nav-item">
@@ -58,7 +68,7 @@ const Navbar = () => {
                     className="nav-link d-flex align-items-center"
                     to="/login"
                   >
-                    <BsSignpostSplit /> Post
+                    <BsSignpostSplit className="me-2" /> Post
                   </NavLink>
                 </li>
               </>
@@ -69,7 +79,7 @@ const Navbar = () => {
                     className="nav-link d-flex align-items-center"
                     to="/login"
                   >
-                    <AiOutlineLogin /> Login
+                    <AiOutlineLogin className="me-2" /> Login
                   </NavLink>
                 </li>
                 <li className="nav-item">
@@ -77,7 +87,7 @@ const Navbar = () => {
                     className="nav-link d-flex align-items-center"
                     to="/register"
                   >
-                    <AiOutlineUserAdd /> Register
+                    <AiOutlineUserAdd className="me-2" /> Register
                   </NavLink>
                 </li>
               </>

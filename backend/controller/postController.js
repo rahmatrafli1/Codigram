@@ -102,7 +102,12 @@ class postController {
             },
           ],
         },
-        order: [["id", "ASC"]],
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+          required: true,
+        },
+        order: [["id", "DESC"]],
       });
       res.status(200).json(result);
     } catch (error) {
