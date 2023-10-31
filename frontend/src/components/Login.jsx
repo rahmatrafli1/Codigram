@@ -20,23 +20,33 @@ const Login = () => {
               <div className="card-body">
                 <form>
                   <div className="mb-3">
-                    <label className="form-label">Username</label>
+                    <label htmlFor="username" className="form-label">
+                      Username
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       value={username}
+                      name="username"
+                      id="username"
                       onChange={(e) => setUsername(e.target.value)}
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Password</label>
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
                     <input
                       type="password"
                       className="form-control"
+                      name="password"
+                      id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <button

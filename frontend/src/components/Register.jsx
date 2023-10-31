@@ -50,72 +50,107 @@ const Register = () => {
               <div className="card-body">
                 <form onSubmit={registerHandler}>
                   <div className="mb-3">
-                    <label className="form-label">Name</label>
+                    <label htmlFor="name" className="form-label">
+                      Name
+                    </label>
                     <input
                       type="text"
                       className="form-control"
+                      name="name"
+                      id="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Username</label>
+                    <label htmlFor="username" className="form-label">
+                      Username
+                    </label>
                     <input
                       type="text"
                       className="form-control"
+                      name="username"
+                      id="username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Email address</label>
+                    <label htmlFor="email" className="form-label">
+                      Email address
+                    </label>
                     <input
                       type="email"
+                      name="email"
+                      id="email"
                       className="form-control"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Password</label>
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
                     <input
                       type="password"
+                      name="password"
+                      id="password"
                       className="form-control"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Confirm Password</label>
+                    <label htmlFor="confirmpass" className="form-label">
+                      Confirm Password
+                    </label>
                     <input
                       type="password"
+                      name="confirmpass"
+                      id="confirmpass"
                       className="form-control"
                       value={confirmpass}
                       onChange={(e) => setConfirmPass(e.target.value)}
                       required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Address</label>
+                    <label htmlFor="address" className="form-label">
+                      Address
+                    </label>
                     <textarea
                       className="form-control"
+                      name="address"
+                      id="address"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       required
+                      autoComplete="off"
                     ></textarea>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">No HP</label>
+                    <label htmlFor="nohp" className="form-label">
+                      No HP
+                    </label>
                     <input
                       type="text"
                       className="form-control"
+                      name="nohp"
+                      id="nohp"
                       value={nohp}
                       onChange={(e) => setNoHP(e.target.value)}
                       required
+                      autoComplete="off"
                     ></input>
                   </div>
                   <button
