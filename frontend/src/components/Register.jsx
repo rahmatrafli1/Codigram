@@ -7,12 +7,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AiOutlineUserAdd } from "react-icons/ai";
 
-const Register = () => {
-  const [login, setLogin] = useState(false);
-
-  const loginHandler = (result) => {
-    setLogin(result);
-  };
+const Register = (props) => {
+  const { login, loginHandler } = props;
 
   const {
     register,

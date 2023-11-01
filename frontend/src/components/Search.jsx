@@ -1,10 +1,11 @@
 import React from "react";
 import Search from "./Post/SearchPost";
 
-const SearchComp = () => {
+const SearchComp = (props) => {
+  const { login, loginHandler } = props;
   return (
     <>
-      <Search />
+      <Search login={login} loginHandler={loginHandler} />
     </>
   );
 };

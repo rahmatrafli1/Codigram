@@ -57,7 +57,8 @@ export const loginUser = (data) => {
       timeout: 120000,
     })
       .then((res) => {
-        console.log(res.data);
+        const access_token = res.data.access_token;
+        localStorage.setItem("access_token", access_token);
         dispatch({
           type: LOGIN_USER,
           payload: {

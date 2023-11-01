@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getListPostSearch } from "../../../actions/PostActions";
 import { Link } from "react-router-dom";
 
-const SearchPost = () => {
+const SearchPost = (props) => {
+  const { login, loginHandler } = props;
+
   function longString(params) {
     let res = params ? params.substring(0, 100) : "";
     return res + "...";
@@ -40,7 +42,7 @@ const SearchPost = () => {
   };
   return (
     <>
-      <Navbar />
+      <Navbar login={login} loginHandler={loginHandler} />
       <div className="container">
         <form className="mt-3" onSubmit={searchData}>
           <div className="input-group mb-3">
