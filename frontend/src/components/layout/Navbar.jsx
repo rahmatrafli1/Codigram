@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
   AiOutlineHome,
@@ -10,15 +10,13 @@ import {
 } from "react-icons/ai";
 import { BsSignpostSplit } from "react-icons/bs";
 
-const Navbar = () => {
-  // eslint-disable-next-line
-  const [login, setLogin] = useState(false);
-  //   const loginHandler = () => {
-  //     setLogin(true);
-  //   };
-  //   const logoutHandler = () => {
-  //     setLogin(false);
-  //   };
+const Navbar = (props) => {
+  const { login, loginHandler } = props;
+
+  const logoutHandler = () => {
+    loginHandler(false);
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg bg-dark sticky-top"
@@ -59,14 +57,17 @@ const Navbar = () => {
             {login ? (
               <>
                 <li className="nav-item">
-                  <button className="nav-link d-flex align-items-center">
+                  <button
+                    className="nav-link d-flex align-items-center"
+                    onClick={() => logoutHandler()}
+                  >
                     <AiOutlineLogout className="me-2" /> Logout
                   </button>
                 </li>
                 <li className="nav-item">
                   <NavLink
                     className="nav-link d-flex align-items-center"
-                    to="/login"
+                    to="/post"
                   >
                     <BsSignpostSplit className="me-2" /> Post
                   </NavLink>

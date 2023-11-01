@@ -92,12 +92,12 @@ class postController {
           [Op.or]: [
             {
               name: {
-                [Op.like]: `%${search}%`,
+                [Op.iLike]: `%${search ? search : ""}%`,
               },
             },
             {
               description: {
-                [Op.like]: `%${search}%`,
+                [Op.iLike]: `%${search ? search : ""}%`,
               },
             },
           ],

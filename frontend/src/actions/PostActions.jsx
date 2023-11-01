@@ -38,7 +38,7 @@ export const getListPost = () => {
           payload: {
             loading: false,
             data: false,
-            errorMessage: err.message,
+            errorMessage: err.response.data.message,
           },
         });
       });
@@ -77,7 +77,7 @@ export const getPostDetail = (id) => {
           payload: {
             loading: false,
             data: false,
-            errorMessage: err.message,
+            errorMessage: err.response.data.message,
           },
         });
       });
@@ -119,7 +119,7 @@ export const getListPostSearch = (data) => {
           payload: {
             loading: false,
             data: false,
-            errorMessage: err.message,
+            errorMessage: err.response.data.message,
           },
         });
       });

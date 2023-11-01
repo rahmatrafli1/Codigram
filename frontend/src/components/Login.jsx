@@ -3,13 +3,18 @@ import Navbar from "./layout/Navbar";
 import { AiOutlineLogin } from "react-icons/ai";
 
 const Login = () => {
-  // const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(false);
+
+  const loginHandler = (result) => {
+    setLogin(result);
+  };
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <>
-      <Navbar />
+      <Navbar login={login} loginHandler={loginHandler} />
       <div className="container my-5">
         <div className="row justify-content-center">
           <div className="col-md-8">

@@ -1,45 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./layout/Navbar";
-import { AiOutlineUserAdd } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../actions/AuthActions";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { AiOutlineUserAdd } from "react-icons/ai";
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmpass, setConfirmPass] = useState("");
-  const [address, setAddress] = useState("");
-  const [nohp, setNoHP] = useState("");
+  const [login, setLogin] = useState(false);
+
+  const loginHandler = (result) => {
+    setLogin(result);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    // eslint-disable-next-line
+    formState: { errors },
+  } = useForm();
+
+  const { registerUsersResult, registerUsersError } = useSelector(
+    (state) => state.AuthReducer
+  );
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const registerHandler = (e) => {
-    e.preventDefault();
-    dispatch(
-      registerUser({
-        name: name,
-        username: username,
-        email: email,
-        password: password,
-        confirmpass: confirmpass,
-        address: address,
-        nohp: nohp,
-      })
-    );
-    setName("");
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmPass("");
-    setAddress("");
-    setNoHP("");
+  const [isRegister, setIsRegister] = useState(false);
+
+  const registerUsers = (data) => {
+    Swal.fire({
+      title: "Apakah data ini sesuai?",
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        const dataJson = {
+          name: data.name,
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          confirmpass: data.confirmpass,
+          address: data.address,
+          nohp: data.nohp,
+        };
+        setIsRegister(true);
+        dispatch(registerUser(dataJson));
+      }
+    });
   };
+
+  useEffect(() => {
+    if (registerUsersResult || registerUsersError) {
+      if (isRegister) {
+        registerUsersResult
+          ? Swal.fire({
+              title: "Register is Successfully!",
+              icon: "success",
+              confirmButtonText: "OK",
+              confirmButtonColor: "rgb(50,205,50)",
+            }).then((res) => {
+              if (res.isConfirmed || res.isDismissed) {
+                navigate("/login");
+              }
+            })
+          : Swal.fire("Gagal Register", registerUsersError, "error");
+      }
+    }
+    // eslint-disable-next-line
+  }, [registerUsersResult, registerUsersError]);
 
   return (
     <>
-      <Navbar />
+      <Navbar login={login} loginHandler={loginHandler} />
       <div className="container my-5">
         <div className="row justify-content-center">
           <div className="col-md-8">
@@ -48,7 +83,7 @@ const Register = () => {
                 <h1 className="mt-2 text-center">Register</h1>
               </div>
               <div className="card-body">
-                <form onSubmit={registerHandler}>
+                <form onSubmit={handleSubmit(registerUsers)}>
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
                       Name
@@ -58,9 +93,7 @@ const Register = () => {
                       className="form-control"
                       name="name"
                       id="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
+                      {...register("name")}
                       autoComplete="off"
                     />
                   </div>
@@ -73,9 +106,7 @@ const Register = () => {
                       className="form-control"
                       name="username"
                       id="username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      required
+                      {...register("username")}
                       autoComplete="off"
                     />
                   </div>
@@ -87,10 +118,8 @@ const Register = () => {
                       type="email"
                       name="email"
                       id="email"
+                      {...register("email")}
                       className="form-control"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
                       autoComplete="off"
                     />
                   </div>
@@ -102,10 +131,8 @@ const Register = () => {
                       type="password"
                       name="password"
                       id="password"
+                      {...register("password")}
                       className="form-control"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
                       autoComplete="off"
                     />
                   </div>
@@ -117,10 +144,8 @@ const Register = () => {
                       type="password"
                       name="confirmpass"
                       id="confirmpass"
+                      {...register("confirmpass")}
                       className="form-control"
-                      value={confirmpass}
-                      onChange={(e) => setConfirmPass(e.target.value)}
-                      required
                       autoComplete="off"
                     />
                   </div>
@@ -132,9 +157,7 @@ const Register = () => {
                       className="form-control"
                       name="address"
                       id="address"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      required
+                      {...register("address")}
                       autoComplete="off"
                     ></textarea>
                   </div>
@@ -147,9 +170,7 @@ const Register = () => {
                       className="form-control"
                       name="nohp"
                       id="nohp"
-                      value={nohp}
-                      onChange={(e) => setNoHP(e.target.value)}
-                      required
+                      {...register("nohp")}
                       autoComplete="off"
                     ></input>
                   </div>

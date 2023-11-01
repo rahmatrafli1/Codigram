@@ -48,7 +48,7 @@ const SearchPost = () => {
               type="text"
               name="search"
               className="form-control"
-              placeholder="Cari berdasarkan nama dan deskripsi.."
+              placeholder="Cari berdasarkan nama atau deskripsi.."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
