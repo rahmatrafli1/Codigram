@@ -69,6 +69,15 @@ class postController {
       const UserId = +req.userData.id;
 
       const posts = await Post.findAll({
+        attributes: [
+          "id",
+          "name",
+          "description",
+          "image",
+          "image_url",
+          "createdAt",
+          "updatedAt",
+        ],
         include: {
           model: User,
           attributes: ["id", "name"],
