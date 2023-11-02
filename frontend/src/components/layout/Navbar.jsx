@@ -8,8 +8,10 @@ import {
   AiOutlineSearch,
   AiOutlineUserAdd,
 } from "react-icons/ai";
+import { BiSolidUserDetail } from "react-icons/bi";
 import { BsSignpostSplit } from "react-icons/bs";
 import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
 
 const Navbar = (props) => {
   const { login, loginHandler } = props;
@@ -44,6 +46,17 @@ const Navbar = (props) => {
       }
     });
   };
+
+  const data = localStorage.getItem("access_token");
+
+  const getdecoded = () => {
+    if (data) {
+      const dec = jwtDecode(data);
+      return dec;
+    }
+  };
+
+  const decoded = getdecoded() ? getdecoded() : false;
 
   return (
     <nav
@@ -92,13 +105,45 @@ const Navbar = (props) => {
                     <BsSignpostSplit className="me-2" /> Post
                   </NavLink>
                 </li>
-                <li className="nav-item">
-                  <button
-                    className="nav-link d-flex align-items-center"
-                    onClick={() => logoutHandler()}
+                <li className="nav-item dropdown">
+                  <Link
+                    to="#"
+                    className="nav-link dropdown-toggle"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
                   >
-                    <AiOutlineLogout className="me-2" /> Logout
-                  </button>
+                    {decoded ? (
+                      <img
+                        src={decoded.image_url}
+                        alt={decoded.image}
+                        width={20}
+                        height={20}
+                        className="rounded-circle me-2"
+                      />
+                    ) : (
+                      ""
+                    )}
+                    {decoded ? decoded.name : ""}
+                  </Link>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link
+                        to="#"
+                        className="dropdown-item d-flex align-items-center"
+                      >
+                        <BiSolidUserDetail className="me-2" /> Detail User
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        className="dropdown-item d-flex align-items-center"
+                        onClick={() => logoutHandler()}
+                      >
+                        <AiOutlineLogout className="me-2" /> Logout
+                      </button>
+                    </li>
+                  </ul>
                 </li>
               </>
             ) : (
