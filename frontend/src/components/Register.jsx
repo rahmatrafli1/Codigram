@@ -95,6 +95,7 @@ const Register = (props) => {
                       id="name"
                       {...register("name")}
                       autoComplete="off"
+                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -108,6 +109,7 @@ const Register = (props) => {
                       id="username"
                       {...register("username")}
                       autoComplete="off"
+                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -121,6 +123,7 @@ const Register = (props) => {
                       {...register("email")}
                       className="form-control"
                       autoComplete="off"
+                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -134,6 +137,7 @@ const Register = (props) => {
                       {...register("password")}
                       className="form-control"
                       autoComplete="off"
+                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -147,6 +151,7 @@ const Register = (props) => {
                       {...register("confirmpass")}
                       className="form-control"
                       autoComplete="off"
+                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -172,6 +177,8 @@ const Register = (props) => {
                       id="nohp"
                       {...register("nohp")}
                       autoComplete="off"
+                      required
+                      placeholder="Ex: +62123456789"
                     ></input>
                   </div>
                   <button

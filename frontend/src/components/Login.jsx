@@ -33,32 +33,27 @@ const Login = (props) => {
   };
 
   useEffect(() => {
+    if (loginUsersError) {
+      Swal.fire("Login Failed", loginUsersError, "error");
+    }
     if (data) {
-      let timerInterval;
-      isLogin
-        ? loginUsersResult.access_token
-          ? Swal.fire({
-              title: "Login Sucessfully!",
-              icon: "success",
-              html: "You'll be directed",
-              timer: 1500,
-              showConfirmButton: true,
-              timerProgressBar: true,
-              willClose: () => {
-                clearInterval(timerInterval);
-              },
-            }).then((res) => {
-              if (res.dismiss) {
-                navigate("/");
-              }
-
-              if (res.isConfirmed) {
-                navigate("/");
-              }
-              loginHandler(true);
-            })
-          : Swal.fire("Login Failed", loginUsersError, "error")
-        : navigate("/");
+      if (isLogin) {
+        if (loginUsersResult) {
+          Swal.fire({
+            title: "Login Sucessfully!",
+            icon: "success",
+            showConfirmButton: true,
+            timerProgressBar: true,
+          }).then((res) => {
+            if (res.isConfirmed) {
+              navigate("/");
+            }
+            loginHandler(true);
+          });
+        }
+      } else {
+        navigate("/");
+      }
     }
     // eslint-disable-next-line
   }, [loginUsersResult, loginUsersError]);
