@@ -28,7 +28,7 @@ const HomePost = (props) => {
   const data = localStorage.getItem("access_token");
 
   useEffect(() => {
-    if (!localStorage.getItem("access_token")) {
+    if (!data) {
       Swal.fire({
         title: "Oops!",
         text: "Anda harus login terlebih dahulu!",
@@ -46,7 +46,7 @@ const HomePost = (props) => {
       <Navbar login={login} loginHandler={loginHandler} />
       <h1 className="container mt-3">Post Page</h1>
       <div className="container mb-2">
-        <Link to="#" className="btn btn-success">
+        <Link to="/post/add" className="btn btn-success">
           <div className="d-flex align-items-center">
             <AiOutlinePlus className="me-2" /> Add Post
           </div>

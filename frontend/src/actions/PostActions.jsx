@@ -4,6 +4,7 @@ export const GET_LIST_POST = "GET_LIST_POST";
 export const GET_LIST_POST_DETAIL = "GET_LIST_POST_DETAIL";
 export const GET_SEARCH_POST = "GET_SEARCH_POST";
 export const GET_LIST_POST_USER = "GET_LIST_POST_USER";
+export const POST_ADD_USER = "POST_ADD_USER";
 
 export const getListPost = () => {
   return (dispatch) => {
@@ -159,6 +160,44 @@ export const getListPostUser = (token) => {
           type: GET_LIST_POST_USER,
           payload: {
             loading: false,
+            data: false,
+            errorMessage: err.response.data.message,
+          },
+        });
+      });
+  };
+};
+
+export const postAddUser = (data, token) => {
+  return (dispatch) => {
+    dispatch({
+      type: POST_ADD_USER,
+      payload: {
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    axios({
+      method: "POST",
+      url: "http://localhost:3000/post",
+      headers: { access_token: token },
+      data: data,
+      timeout: 120000,
+    })
+      .then((res) => {
+        dispatch({
+          type: POST_ADD_USER,
+          payload: {
+            data: res.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: POST_ADD_USER,
+          payload: {
             data: false,
             errorMessage: err.response.data.message,
           },

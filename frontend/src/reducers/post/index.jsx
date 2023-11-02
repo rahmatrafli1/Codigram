@@ -3,6 +3,7 @@ import {
   GET_LIST_POST_DETAIL,
   GET_LIST_POST_USER,
   GET_SEARCH_POST,
+  POST_ADD_USER,
 } from "../../actions/PostActions";
 
 const initialState = {
@@ -18,6 +19,8 @@ const initialState = {
   getListPostUserResult: false,
   getListPostUserLoading: false,
   getListPostUserError: false,
+  postAddUserResult: false,
+  postAddUserError: false,
 };
 
 const post = (state = initialState, action) => {
@@ -49,6 +52,12 @@ const post = (state = initialState, action) => {
         getListPostUserResult: action.payload.data,
         getListPostUserLoading: action.payload.loading,
         getListPostUserError: action.payload.errorMessage,
+      };
+    case POST_ADD_USER:
+      return {
+        ...state,
+        postAddUserResult: action.payload.data,
+        postAddUserError: action.payload.errorMessage,
       };
     default:
       return state;
