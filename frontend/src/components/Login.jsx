@@ -39,6 +39,7 @@ const Login = (props) => {
         ? loginUsersResult.access_token
           ? Swal.fire({
               title: "Login Sucessfully!",
+              icon: "success",
               html: "You'll be directed",
               timer: 1500,
               showConfirmButton: true,

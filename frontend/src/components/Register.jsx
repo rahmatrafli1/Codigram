@@ -49,6 +49,10 @@ const Register = (props) => {
   };
 
   useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/");
+    }
+
     if (registerUsersResult || registerUsersError) {
       if (isRegister) {
         registerUsersResult

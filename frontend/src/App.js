@@ -7,7 +7,7 @@ import Register from "./components/Register";
 import DetailPostGuest from "./components/DetailPostGuest";
 import Search from "./components/Search";
 import { HomePost } from "./components/Post";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [login, setLogin] = useState(false);
@@ -15,6 +15,14 @@ function App() {
   const loginHandler = (result) => {
     setLogin(result);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }, [login]);
 
   return (
     <BrowserRouter>
@@ -33,25 +41,18 @@ function App() {
             <DetailPostGuest login={login} loginHandler={loginHandler} />
           }
         />
-        {login ? (
-          <>
-            <Route
-              path="/post"
-              element={<HomePost login={login} loginHandler={loginHandler} />}
-            />
-          </>
-        ) : (
-          <>
-            <Route
-              path="/login"
-              element={<Login login={login} loginHandler={loginHandler} />}
-            />
-            <Route
-              path="/register"
-              element={<Register login={login} loginHandler={loginHandler} />}
-            />
-          </>
-        )}
+        <Route
+          path="/post"
+          element={<HomePost login={login} loginHandler={loginHandler} />}
+        />
+        <Route
+          path="/login"
+          element={<Login login={login} loginHandler={loginHandler} />}
+        />
+        <Route
+          path="/register"
+          element={<Register login={login} loginHandler={loginHandler} />}
+        />
       </Routes>
     </BrowserRouter>
   );

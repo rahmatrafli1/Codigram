@@ -16,6 +16,7 @@ const DetailPost = () => {
   useEffect(() => {
     dispatch(getPostDetail(id));
   }, [dispatch, id]);
+  const PostDate = new Date(getListPostDetailResult.createdAt);
   return (
     <>
       {getListPostDetailResult && getListPostDetailResult ? (
@@ -29,6 +30,31 @@ const DetailPost = () => {
             <span className="badge text-bg-primary mb-2">
               {getListPostDetailResult.User.name}
             </span>
+            <p>
+              {`${
+                PostDate.getDate().toString().length === 1
+                  ? "0" + PostDate.getDate()
+                  : PostDate.getDate()
+              }-${
+                PostDate.getMonth().toString().length === 1
+                  ? "0" + PostDate.getMonth()
+                  : PostDate.getMonth()
+              }-${PostDate.getFullYear()}
+                                            `}{" "}
+              {`${
+                PostDate.getHours().toString().length === 1
+                  ? "0" + PostDate.getHours()
+                  : PostDate.getHours()
+              }:${
+                PostDate.getMinutes().toString().length === 1
+                  ? "0" + PostDate.getMinutes()
+                  : PostDate.getMinutes()
+              }:${
+                PostDate.getSeconds().toString().length === 1
+                  ? "0" + PostDate.getSeconds()
+                  : PostDate.getSeconds()
+              }`}
+            </p>
             <h5 className="card-title">{getListPostDetailResult.name}</h5>
             <p className="card-text">{getListPostDetailResult.description}</p>
           </div>

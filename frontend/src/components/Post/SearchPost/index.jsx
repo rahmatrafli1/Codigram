@@ -66,6 +66,7 @@ const SearchPost = (props) => {
           <div className="row">
             {getListPostSearchResult && getListPostSearchResult ? (
               getListPostSearchResult.map((post) => {
+                const PostDate = new Date(post.createdAt);
                 return (
                   <div className="col-md-4 py-2" key={post.id}>
                     <div className="card">
@@ -78,7 +79,31 @@ const SearchPost = (props) => {
                         <div className="card-body">
                           <span className="badge text-bg-primary mb-2">
                             {post.User.name}
-                          </span>
+                          </span>{" "}
+                          |{" "}
+                          {`${
+                            PostDate.getDate().toString().length === 1
+                              ? "0" + PostDate.getDate()
+                              : PostDate.getDate()
+                          }-${
+                            PostDate.getMonth().toString().length === 1
+                              ? "0" + PostDate.getMonth()
+                              : PostDate.getMonth()
+                          }-${PostDate.getFullYear()}
+                                            `}{" "}
+                          {`${
+                            PostDate.getHours().toString().length === 1
+                              ? "0" + PostDate.getHours()
+                              : PostDate.getHours()
+                          }:${
+                            PostDate.getMinutes().toString().length === 1
+                              ? "0" + PostDate.getMinutes()
+                              : PostDate.getMinutes()
+                          }:${
+                            PostDate.getSeconds().toString().length === 1
+                              ? "0" + PostDate.getSeconds()
+                              : PostDate.getSeconds()
+                          }`}
                           <h5 className="card-title">{post.name}</h5>
                           <p className="card-text">
                             {longString(post.description)}
