@@ -131,7 +131,7 @@ const EditPost = (props) => {
               name="name"
               required
               autoComplete="off"
-              value={name}
+              value={name || ""}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -145,7 +145,7 @@ const EditPost = (props) => {
               name="description"
               required
               autoComplete="off"
-              value={description}
+              value={description || ""}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
           </div>
