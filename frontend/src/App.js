@@ -8,6 +8,7 @@ import DetailPostGuest from "./components/DetailPostGuest";
 import Search from "./components/Search";
 import { AddPost, EditPost, HomePost } from "./components/Post";
 import { useState, useEffect } from "react";
+import DetailPost from "./components/DetailPostUser";
 
 function App() {
   const [login, setLogin] = useState(false);
@@ -40,6 +41,10 @@ function App() {
           element={
             <DetailPostGuest login={login} loginHandler={loginHandler} />
           }
+        />
+        <Route
+          path="/post/detail/:id"
+          element={<DetailPost login={login} loginHandler={loginHandler} />}
         />
         <Route
           path="/post"

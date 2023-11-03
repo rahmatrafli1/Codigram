@@ -119,7 +119,7 @@ const HomePost = (props) => {
                   <td>{post.User.name}</td>
                   <td>
                     <Link
-                      to="#"
+                      to={`/post/detail/${post.id}`}
                       className="btn btn-sm btn-info me-2 text-white fs-6"
                     >
                       <AiOutlineEye />
