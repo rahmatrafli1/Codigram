@@ -50,6 +50,7 @@ const HomePost = (props) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Ya, Hapus!",
+      cancelButtonText: "Tidak",
     }).then((res) => {
       if (res.isConfirmed) {
         setIsDelete(true);
