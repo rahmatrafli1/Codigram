@@ -8,7 +8,7 @@ const DetailPost = (props) => {
     <>
       <Navbar login={login} loginHandler={loginHandler} />
       <div className="container">
-        <h1 className="mt-3">Detail Post</h1>
+        <h1 className="mt-3">My Detail Post</h1>
         <hr />
         <DetailPostUser />
       </div>
