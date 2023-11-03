@@ -13,7 +13,6 @@ const EditPost = (props) => {
 
   const {
     // eslint-disable-next-line
-    postedit,
     handleSubmit,
     // eslint-disable-next-line
     formState: { errors },
@@ -62,7 +61,9 @@ const EditPost = (props) => {
 
   const updatePost = () => {
     Swal.fire({
-      title: "Apakah data anda sesuai?",
+      title: "Peringatan",
+      text: "Apakah data anda sesuai?",
+      icon: "warning",
       showCancelButton: true,
       cancelButtonText: "Tidak",
       showConfirmButton: true,
@@ -170,7 +171,13 @@ const EditPost = (props) => {
                   className="mt-2 object-fit-contain"
                 />
               ) : (
-                ""
+                <img
+                  src="http://localhost:3000/assets/post/default.jpeg"
+                  alt="default.jpeg"
+                  width={150}
+                  height={150}
+                  className="mt-2 object-fit-contain"
+                />
               )}
             </div>
           </div>

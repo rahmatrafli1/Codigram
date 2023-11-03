@@ -13,7 +13,7 @@ class postController {
           attributes: ["id", "name"],
           required: true,
         },
-        order: [["id", "ASC"]],
+        order: [["id", "DESC"]],
       });
 
       res.status(200).json(posts);
@@ -288,8 +288,8 @@ class postController {
               message: "Post " + req.params.id + " tidak ada!",
             });
       } else {
-        res.status(403).json({
-          message: `Anda tidak diizinkan delete.`,
+        res.status(404).json({
+          message: `Anda tidak diizinkan delete. karena gambar yang dihapus tidak ada.`,
         });
       }
     } catch (error) {

@@ -4,6 +4,7 @@ import {
   GET_LIST_POST_USER,
   GET_SEARCH_POST,
   POST_ADD_USER,
+  POST_DELETE_USER,
   POST_EDIT_USER,
 } from "../../actions/PostActions";
 
@@ -24,6 +25,9 @@ const initialState = {
   postAddUserError: false,
   postEditUserResult: false,
   postEditUserError: false,
+  postDeleteUserResult: false,
+  postDeleteUserLoading: false,
+  postDeleteUserError: false,
 };
 
 const post = (state = initialState, action) => {
@@ -67,6 +71,13 @@ const post = (state = initialState, action) => {
         ...state,
         postEditUserResult: action.payload.data,
         postEditUserError: action.payload.errorMessage,
+      };
+    case POST_DELETE_USER:
+      return {
+        ...state,
+        postDeleteUserResult: action.payload.data,
+        postDeleteUserLoading: action.payload.loading,
+        postDeleteUserError: action.payload.errorMessage,
       };
     default:
       return state;

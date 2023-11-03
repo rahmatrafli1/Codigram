@@ -102,7 +102,7 @@ const Navbar = (props) => {
                     className="nav-link d-flex align-items-center"
                     to="/post"
                   >
-                    <BsSignpostSplit className="me-2" /> Post
+                    <BsSignpostSplit className="me-2" /> My Post
                   </NavLink>
                 </li>
                 <li className="nav-item dropdown">

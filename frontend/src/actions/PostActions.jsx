@@ -6,6 +6,7 @@ export const GET_SEARCH_POST = "GET_SEARCH_POST";
 export const GET_LIST_POST_USER = "GET_LIST_POST_USER";
 export const POST_ADD_USER = "POST_ADD_USER";
 export const POST_EDIT_USER = "POST_EDIT_USER";
+export const POST_DELETE_USER = "POST_DELETE_USER";
 
 export const getListPost = () => {
   return (dispatch) => {
@@ -237,6 +238,47 @@ export const postEditUser = (data, token, id) => {
         dispatch({
           type: POST_EDIT_USER,
           payload: {
+            data: false,
+            errorMessage: err.response.data.message,
+          },
+        });
+      });
+  };
+};
+
+export const postDeleteUser = (data, token, id) => {
+  return (dispatch) => {
+    dispatch({
+      type: POST_DELETE_USER,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    axios({
+      method: "DELETE",
+      headers: { access_token: token },
+      url: `http://localhost:3000/post/${id}`,
+      data: data,
+      timeout: 120000,
+    })
+      .then((res) => {
+        dispatch({
+          type: POST_DELETE_USER,
+          payload: {
+            loading: false,
+            data: res.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: POST_DELETE_USER,
+          payload: {
+            loading: false,
             data: false,
             errorMessage: err.response.data.message,
           },

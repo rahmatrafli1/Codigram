@@ -34,13 +34,18 @@ const AddPost = (props) => {
   // eslint-disable-next-line
   const [image, setImage] = useState("");
   // eslint-disable-next-line
-  const [imageFrom, setImageFrom] = useState(
-    "http://localhost:3000/assets/post/default.jpeg"
-  );
-  const [imageSave, setImageSave] = useState(null);
+  const [preview, setPreview] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const loadImage = (e) => {
+    const image = e.target.files[0];
+    if (image) {
+      setImage(image);
+      setPreview(URL.createObjectURL(image));
+    }
+  };
 
   const {
     // eslint-disable-next-line
@@ -52,7 +57,9 @@ const AddPost = (props) => {
 
   const addPosts = () => {
     Swal.fire({
-      title: "Apakah data anda sesuai?",
+      title: "Peringatan",
+      text: "Apakah data anda sesuai?",
+      icon: "warning",
       showCancelButton: true,
       cancelButtonText: "Tidak",
       showConfirmButton: true,
@@ -61,7 +68,7 @@ const AddPost = (props) => {
       const formData = new FormData();
       formData.append("name", hasil.name);
       formData.append("description", hasil.description);
-      formData.append("image", imageSave);
+      formData.append("image", image);
       formData.append("UserId", hasil.UserId);
       if (res.isConfirmed) {
         setIsPost(true);
@@ -143,22 +150,27 @@ const AddPost = (props) => {
               type="file"
               name="image"
               id="image"
-              onChange={(e) => {
-                setImageSave(e.target.files[0]);
-                setImage(
-                  e.target.files[0] ? e.target.files[0] : "default.jpeg"
-                );
-              }}
+              onChange={loadImage}
               autoComplete="off"
             />
             <div className="w-100">
-              <img
-                src={imageFrom}
-                alt="imagefrom"
-                width={150}
-                height={150}
-                className="mt-2 object-fit-contain"
-              />
+              {preview ? (
+                <img
+                  src={preview}
+                  alt={image}
+                  width={150}
+                  height={150}
+                  className="mt-2 object-fit-contain"
+                />
+              ) : (
+                <img
+                  src="http://localhost:3000/assets/post/default.jpeg"
+                  alt="default.jpeg"
+                  width={150}
+                  height={150}
+                  className="mt-2 object-fit-contain"
+                />
+              )}
             </div>
           </div>
           <button type="submit" className="btn btn-primary">

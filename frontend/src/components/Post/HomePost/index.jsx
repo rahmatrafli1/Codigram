@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../layout/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AiOutlineClose, AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import { BsPencilSquare } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { getListPostUser } from "../../../actions/PostActions";
+import { getListPostUser, postDeleteUser } from "../../../actions/PostActions";
+import { jwtDecode } from "jwt-decode";
 
 const HomePost = (props) => {
   function longString(params) {
@@ -25,7 +26,37 @@ const HomePost = (props) => {
 
   const navigate = useNavigate();
 
+  const [isDelete, setIsDelete] = useState(false);
+
+  const { postDeleteUserResult } = useSelector((state) => state.PostReducer);
+
   const data = localStorage.getItem("access_token");
+
+  const getDecoded = () => {
+    if (data) {
+      const tokenDec = jwtDecode(data);
+      return tokenDec;
+    }
+  };
+
+  const decoded = getDecoded() ? getDecoded() : false;
+
+  const deletePost = (id) => {
+    Swal.fire({
+      title: "Yakin Mau dihapus?",
+      text: "Kalau anda menghapus post ini, post tersebut tidak bisa dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Hapus!",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        setIsDelete(true);
+        dispatch(postDeleteUser({ UserId: decoded.id }, data, id));
+      }
+    });
+  };
 
   useEffect(() => {
     if (!data) {
@@ -38,13 +69,27 @@ const HomePost = (props) => {
       navigate("/login");
     }
 
+    if (isDelete) {
+      Swal.fire({
+        title: "Sukses",
+        icon: "success",
+        text: "Berhasil menghapus post!",
+        showConfirmButton: true,
+        confirmButtonColor: "rgb(50,205,50)",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/post");
+        }
+      });
+    }
+
     dispatch(getListPostUser(data));
     // eslint-disable-next-line
-  }, [login]);
+  }, [login, postDeleteUserResult]);
   return (
     <>
       <Navbar login={login} loginHandler={loginHandler} />
-      <h1 className="container mt-3">Post Page</h1>
+      <h1 className="container mt-3">My Post</h1>
       <div className="container mb-2">
         <Link to="/post/add" className="btn btn-success">
           <div className="d-flex align-items-center">
@@ -84,9 +129,12 @@ const HomePost = (props) => {
                     >
                       <BsPencilSquare />
                     </Link>
-                    <Link to="#" className="btn btn-sm btn-danger fs-6">
+                    <button
+                      onClick={() => deletePost(post.id)}
+                      className="btn btn-sm btn-danger fs-6"
+                    >
                       <AiOutlineClose />
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               );
