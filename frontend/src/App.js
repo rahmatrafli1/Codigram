@@ -6,7 +6,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import DetailPostGuest from "./components/DetailPostGuest";
 import Search from "./components/Search";
-import { AddPost, HomePost } from "./components/Post";
+import { AddPost, EditPost, HomePost } from "./components/Post";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -48,6 +48,10 @@ function App() {
         <Route
           path="/post/add"
           element={<AddPost login={login} loginHandler={loginHandler} />}
+        />
+        <Route
+          path="/post/edit/:id"
+          element={<EditPost login={login} loginHandler={loginHandler} />}
         />
         <Route
           path="/login"

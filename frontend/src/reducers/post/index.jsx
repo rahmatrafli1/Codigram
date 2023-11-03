@@ -4,6 +4,7 @@ import {
   GET_LIST_POST_USER,
   GET_SEARCH_POST,
   POST_ADD_USER,
+  POST_EDIT_USER,
 } from "../../actions/PostActions";
 
 const initialState = {
@@ -21,6 +22,8 @@ const initialState = {
   getListPostUserError: false,
   postAddUserResult: false,
   postAddUserError: false,
+  postEditUserResult: false,
+  postEditUserError: false,
 };
 
 const post = (state = initialState, action) => {
@@ -58,6 +61,12 @@ const post = (state = initialState, action) => {
         ...state,
         postAddUserResult: action.payload.data,
         postAddUserError: action.payload.errorMessage,
+      };
+    case POST_EDIT_USER:
+      return {
+        ...state,
+        postEditUserResult: action.payload.data,
+        postEditUserError: action.payload.errorMessage,
       };
     default:
       return state;

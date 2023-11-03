@@ -212,6 +212,7 @@ class postController {
             image: gambar,
             image_url: url,
             UserId: UserId,
+            oldimagename: oldImageName,
             oldimage: oldImage,
           },
           { where: { id: req.params.id }, returning: true }
@@ -235,6 +236,8 @@ class postController {
             image: gambar,
             image_url: url,
             UserId: UserId,
+            oldimagename: oldImageName,
+            oldimage: oldImage,
           },
           { where: { id: req.params.id }, returning: true }
         );

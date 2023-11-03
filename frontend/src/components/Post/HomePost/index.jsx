@@ -79,7 +79,7 @@ const HomePost = (props) => {
                       <AiOutlineEye />
                     </Link>
                     <Link
-                      to="#"
+                      to={`/post/edit/${post.id}`}
                       className="btn btn-sm btn-warning me-2 fs-6 text-white"
                     >
                       <BsPencilSquare />
